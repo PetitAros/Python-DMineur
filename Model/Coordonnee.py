@@ -18,7 +18,7 @@ def type_coordonnee(coord: tuple) -> bool:
     return type(coord) == tuple and len(coord) == 2 and type(coord[0]) == int and type(coord[1]) == int \
         and coord[0] >= 0 and coord[1] >= 0
 
-def construireCoordonee(ligne:int,col:int)->tuple:
+def construireCoordonnee(ligne:int,col:int)->tuple:
     if type(ligne) != int or type(col) != int:
         raise TypeError("Le numéro de ligne type_du_premier_paramètre ou le numéro de colonne type_du_second_paramètre ne sont pas des entiers")
     if ligne < 0 or col < 0:
