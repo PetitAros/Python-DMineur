@@ -22,3 +22,12 @@ def type_cellule(cell: dict) -> bool:
 
 def isContenuCorrect(contenu:int)->bool:
     return type(contenu) == int and ((contenu >= 0 and contenu <= 8) or contenu == const.ID_MINE)
+
+
+def construireCellule(contenu:int=0,visibilite:bool=False)->dict:
+    if not isContenuCorrect(contenu):
+        raise ValueError("construireCellule : le contenu valeur_du_contenu n’est pas correct")
+    if type(visibilite) != bool:
+        raise TypeError("construireCellule : le second paramètre (type_du_paramètre) n’est pas un booléen")
+    return {const.CONTENU:contenu,const.VISIBLE:visibilite}
+
