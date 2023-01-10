@@ -89,3 +89,34 @@ def getCelluleGrilleDemineur(grille:list,coord:tuple)->dict:
     return grille[getLigneCoordonnee(coord)][getColonneCoordonnee(coord)]
 
 
+def getCoordonneeVoisinsGrilleDemineur(grille:list,coord:tuple)->list:
+    if not(type_grille_demineur(grille) and type_coordonnee(coord)):
+        raise TypeError("getCoordonneeVoisinsGrilleDemineur : un des paramètres n’est pas du bon type.")
+    if not isCoordonneeCorrecte(grille,coord):
+        raise IndexError("getCoordonneeVoisinsGrilleDemineur : la coordonnée n’est pas dans la grille")
+    res = []
+    ligne = getLigneCoordonnee(coord)
+    col = getColonneCoordonnee(coord)
+    coteGauche = col > 0
+    coteHaut = ligne > 0
+    coteBas = ligne < getNbLignesGrilleDemineur(grille) - 1
+    coteDroit = col < getNbColonnesGrilleDemineur(grille) - 1
+    if coteHaut:
+        res.append((ligne-1,col))
+    if coteGauche:
+        res.append((ligne,col-1))
+    if coteGauche and coteHaut:
+        res.append((ligne-1,col-1))
+    if coteBas:
+        res.append((ligne+1,col))
+    if coteDroit:
+        res.append((ligne,col+1))
+    if coteDroit and coteBas:
+        res.append((ligne+1,col+1))
+    if coteDroit and coteHaut:
+        res.append((ligne-1,col+1))
+    if coteGauche and coteBas:
+        res.append((ligne+1,col-1))
+    return res
+
+
