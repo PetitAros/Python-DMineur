@@ -134,6 +134,7 @@ def placerMinesGrilleDemineur(grille:list,nbMines:int,coord:tuple)->None:
     shuffle(liste)
     for i in range(nbMines):
         setContenuCellule(grille[getLigneCoordonnee(liste[i])][getColonneCoordonnee(liste[i])],const.ID_MINE)
+    compterMinesVoisinesGrilleDemineur(grille)
     return None
 
 
