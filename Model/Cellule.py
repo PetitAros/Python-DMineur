@@ -72,3 +72,15 @@ def contientMineCellule(cellule:dict)->bool:
 
 def isAnnotationCorrecte(annotation:str)->bool:
     return annotation in (None,const.DOUTE,const.FLAG)
+
+
+def getAnnotationCellule(cellule:dict)->str:
+    if not type_cellule(cellule):
+        raise TypeError(f"getAnnotationCellule : le paramètre {cellule} n'est pas une cellule")
+    return cellule.setdefault(const.ANNOTATION,None)
+def changeAnnotationCellule(cellule:dict)->None:
+    if not type_cellule(cellule):
+        raise TypeError("changeAnnotationCellule : le paramètre n’est pas une cellule")
+    liste = [None,const.FLAG,const.DOUTE]
+    cellule[const.ANNOTATION] = liste[(liste.index(cellule[const.ANNOTATION])+1)%3]
+    return None

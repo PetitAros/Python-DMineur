@@ -186,3 +186,5 @@ def getNbMinesGrilleDemineur(grille:list)->int:
     return count
 
 
+def getAnnotationGrilleDemineur(grille:list,coord:tuple)->int:
+    return grille[getLigneCoordonnee(coord)][getColonneCoordonnee(coord)][const.ANNOTATION]
