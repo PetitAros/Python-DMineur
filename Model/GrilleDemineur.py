@@ -137,3 +137,17 @@ def placerMinesGrilleDemineur(grille:list,nbMines:int,coord:tuple)->None:
     return None
 
 
+def compterMinesVoisinesGrilleDemineur(grille:list)->None:
+    for i in range(getNbLignesGrilleDemineur(grille)):
+        for j in range(getNbColonnesGrilleDemineur(grille)):
+            if not contientMineCellule(grille[i][j]):
+                val = 0
+                voisins = getCoordonneeVoisinsGrilleDemineur(grille,construireCoordonnee(i,j))
+                for voisinLigne,voisinColonnes in voisins:
+                    if contientMineCellule(grille[voisinLigne][voisinColonnes]):
+                        val += 1
+                setContenuCellule(grille[i][j],val)
+    return None
+
+
+
