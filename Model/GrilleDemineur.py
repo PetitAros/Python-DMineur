@@ -89,6 +89,28 @@ def getCelluleGrilleDemineur(grille:list,coord:tuple)->dict:
     return grille[getLigneCoordonnee(coord)][getColonneCoordonnee(coord)]
 
 
+def getContenuGrilleDemineur(grille:list,coord:tuple)->int:
+    return getContenuCellule(grille[getLigneCoordonnee(coord)][getColonneCoordonnee(coord)])
+
+
+def setContenuGrilleDemineur(grille:list,coord:tuple,contenu:int)->None:
+    setContenuCellule(grille[getLigneCoordonnee(coord)][getColonneCoordonnee(coord)],contenu)
+    return None
+
+
+def isVisibleGrilleDemineur(grille:list,coord:tuple)->bool:
+    return isVisibleCellule(grille[getLigneCoordonnee(coord)][getColonneCoordonnee(coord)])
+
+
+def setVisibleGrilleDemineur(grille:list,coord:tuple,visibilite:bool)->None:
+    setVisibleCellule(grille[getLigneCoordonnee(coord)][getColonneCoordonnee(coord)],visibilite)
+    return None
+
+
+def contientMineGrilleDemineur(grille:list,coord:tuple)->bool:
+    return contientMineCellule(grille[getLigneCoordonnee(coord)][getColonneCoordonnee(coord)])
+
+
 def getCoordonneeVoisinsGrilleDemineur(grille:list,coord:tuple)->list:
     if not(type_grille_demineur(grille) and type_coordonnee(coord)):
         raise TypeError("getCoordonneeVoisinsGrilleDemineur : un des paramètres n’est pas du bon type.")
@@ -133,7 +155,7 @@ def placerMinesGrilleDemineur(grille:list,nbMines:int,coord:tuple)->None:
         liste.remove(coord)
     shuffle(liste)
     for i in range(nbMines):
-        setContenuCellule(grille[getLigneCoordonnee(liste[i])][getColonneCoordonnee(liste[i])],const.ID_MINE)
+        setContenuGrilleDemineur(grille,liste[i],const.ID_MINE)
     compterMinesVoisinesGrilleDemineur(grille)
     return None
 
@@ -141,13 +163,14 @@ def placerMinesGrilleDemineur(grille:list,nbMines:int,coord:tuple)->None:
 def compterMinesVoisinesGrilleDemineur(grille:list)->None:
     for i in range(getNbLignesGrilleDemineur(grille)):
         for j in range(getNbColonnesGrilleDemineur(grille)):
-            if not contientMineCellule(grille[i][j]):
+            coord = construireCoordonnee(i,j)
+            if not contientMineGrilleDemineur(grille,coord):
                 val = 0
-                voisins = getCoordonneeVoisinsGrilleDemineur(grille,construireCoordonnee(i,j))
-                for voisinLigne,voisinColonnes in voisins:
-                    if contientMineCellule(grille[voisinLigne][voisinColonnes]):
+                voisins = getCoordonneeVoisinsGrilleDemineur(grille,coord)
+                for voisin in voisins:
+                    if contientMineGrilleDemineur(grille,voisin):
                         val += 1
-                setContenuCellule(grille[i][j],val)
+                setContenuGrilleDemineur(grille,coord,val)
     return None
 
 
