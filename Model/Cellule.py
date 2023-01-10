@@ -29,7 +29,7 @@ def construireCellule(contenu:int=0,visible:bool=False)->dict:
         raise ValueError("construireCellule : le contenu valeur_du_contenu n’est pas correct")
     if type(visible) != bool:
         raise TypeError("construireCellule : le second paramètre (type_du_paramètre) n’est pas un booléen")
-    return {const.CONTENU:contenu,const.VISIBLE:visible}
+    return {const.CONTENU:contenu,const.VISIBLE:visible,const.ANNOTATION:None}
 
 
 def getContenuCellule(cellule:dict)->int:
@@ -68,3 +68,7 @@ def contientMineCellule(cellule:dict)->bool:
     if not type_cellule(cellule):
         raise TypeError("contientMineCellule : Le paramètre n’est pas une cellule.")
     return cellule[const.CONTENU] == const.ID_MINE
+
+
+def isAnnotationCorrecte(annotation:str)->bool:
+    return annotation in (None,const.DOUTE,const.FLAG)
