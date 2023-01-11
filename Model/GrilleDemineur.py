@@ -202,3 +202,15 @@ def getMinesRestantesGrilleDemineur(grille:list)->int:
     return getNbMinesGrilleDemineur(grille) - count
 
 
+def gagneGrilleDemineur(grille:list)->bool:
+    win = True
+    i = 0
+    while i < getNbLignesGrilleDemineur(grille) and win:
+        j = 0
+        while j < getNbColonnesGrilleDemineur(grille) and win:
+            coord = construireCoordonnee(i,j)
+            if (not contientMineGrilleDemineur(grille,coord) and not isVisibleGrilleDemineur(grille,coord)) or (contientMineGrilleDemineur(grille,coord) and isVisibleGrilleDemineur(grille,coord)):
+                win = False
+            j += 1
+        i += 1
+    return win
