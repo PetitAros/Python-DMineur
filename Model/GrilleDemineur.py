@@ -209,8 +209,22 @@ def gagneGrilleDemineur(grille:list)->bool:
         j = 0
         while j < getNbColonnesGrilleDemineur(grille) and win:
             coord = construireCoordonnee(i,j)
-            if (not contientMineGrilleDemineur(grille,coord) and not isVisibleGrilleDemineur(grille,coord)) or (contientMineGrilleDemineur(grille,coord) and isVisibleGrilleDemineur(grille,coord)):
+            if (not contientMineGrilleDemineur(grille,coord) and not isVisibleGrilleDemineur(grille,coord)) or (contientMineGrilleDemineur(grille,coord) and getAnnotationGrilleDemineur(grille,coord) != const.FLAG):
                 win = False
+            j += 1
+        i += 1
+    return win
+
+
+def perduGrilleDemineur(grille:list)->bool:
+    win = False
+    i = 0
+    while i < getNbLignesGrilleDemineur(grille) and not win:
+        j = 0
+        while j < getNbColonnesGrilleDemineur(grille) and not win:
+            coord = construireCoordonnee(i,j)
+            if contientMineGrilleDemineur(grille,coord) and isVisibleGrilleDemineur(grille,coord):
+                win = True
             j += 1
         i += 1
     return win
