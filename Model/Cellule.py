@@ -84,3 +84,11 @@ def changeAnnotationCellule(cellule:dict)->None:
     liste = [None,const.FLAG,const.DOUTE]
     cellule[const.ANNOTATION] = liste[(liste.index(cellule[const.ANNOTATION])+1)%3]
     return None
+
+
+def reinitialiserCellule(cellule:dict)->None:
+    setVisibleCellule(cellule,False)
+    setContenuCellule(cellule,0)
+    while getAnnotationCellule(cellule) != None:
+        changeAnnotationCellule(cellule)
+    return None

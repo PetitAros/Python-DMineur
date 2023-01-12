@@ -228,3 +228,11 @@ def perduGrilleDemineur(grille:list)->bool:
             j += 1
         i += 1
     return win
+
+
+def reinitialiserGrilleDemineur(grille:list)->None:
+    for i in range(getNbLignesGrilleDemineur(grille)):
+        for j in range(getNbColonnesGrilleDemineur(grille)):
+            coord = construireCoordonnee(i,j)
+            reinitialiserCellule(grille[getLigneCoordonnee(coord)][getColonneCoordonnee(coord)])
+    return None
