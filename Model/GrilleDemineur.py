@@ -236,3 +236,18 @@ def reinitialiserGrilleDemineur(grille:list)->None:
             coord = construireCoordonnee(i,j)
             reinitialiserCellule(grille[getLigneCoordonnee(coord)][getColonneCoordonnee(coord)])
     return None
+
+
+def decouvrirGrilleDemineur(grille:list,coord:tuple)->set:
+    listeCasesVides = set()
+    listeCasesVides.update([coord])
+    setVisibleGrilleDemineur(grille,coord,True)
+    if getContenuGrilleDemineur(grille,coord) == 0:
+        voisins = getCoordonneeVoisinsGrilleDemineur(grille,coord)
+        listeCasesVides.update(voisins)
+        for voisin in voisins:
+            if not isVisibleGrilleDemineur(grille,voisin) and getContenuGrilleDemineur(grille,voisin) == 0:
+                listeCasesVides.update(decouvrirGrilleDemineur(grille,voisin))
+    else:
+        setVisibleGrilleDemineur(grille,coord,True)
+    return listeCasesVides
