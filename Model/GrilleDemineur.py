@@ -251,3 +251,68 @@ def decouvrirGrilleDemineur(grille:list,coord:tuple)->set:
     else:
         setVisibleGrilleDemineur(grille,coord,True)
     return listeCasesVides
+
+
+def simplifierGrilleDemineur(grille:list,coord:tuple)->set:
+    caseSimples = set()
+    caseSimples.update([coord])
+    if isVisibleGrilleDemineur(grille,coord):
+        count = 0
+        voisins = getCoordonneeVoisinsGrilleDemineur(grille,coord)
+        for voisin in voisins:
+            if getAnnotationGrilleDemineur(grille,voisin) == const.FLAG:
+                count += 1
+        if count == getContenuGrilleDemineur(grille,coord):
+            for voisin in voisins:
+                if getAnnotationGrilleDemineur(grille,voisin) != const.FLAG:
+                    setVisibleGrilleDemineur(grille,voisin,True)
+                    caseSimples.update([voisin])
+    return caseSimples
+
+
+def ajouterFlagsGrilleDemineur(grille:list,coord:tuple)->set:
+    caseFlags = set()
+    voisins = getCoordonneeVoisinsGrilleDemineur(grille,coord)
+    count = 0
+    for voisin in voisins:
+        if not isVisibleGrilleDemineur(grille,voisin):
+            count += 1
+    if count == getContenuGrilleDemineur(grille,coord):
+        for voisin in voisins:
+            if not isVisibleGrilleDemineur(grille,voisin):
+                while getAnnotationGrilleDemineur(grille,voisin) != const.FLAG:
+                    changeAnnotationCellule(grille[getLigneCoordonnee(voisin)][getColonneCoordonnee(voisin)])
+                caseFlags.update([voisin])
+    return caseFlags
+
+
+def resetResoudre(grille:list)->None:
+    for i in range(getNbLignesGrilleDemineur(grille)):
+        for j in range(getNbColonnesGrilleDemineur(grille)):
+            coord = construireCoordonnee(i,j)
+            grille[getLigneCoordonnee(coord)][getColonneCoordonnee(coord)][const.RESOLU] = False
+    return None
+
+
+def simplifierToutGrilleDemineur(grille:list)->tuple:
+    casesSimples = set()
+    caseFlags = set()
+    modif = 1
+    while modif > 0:
+        modif = 0
+        for i in range(getNbLignesGrilleDemineur(grille)):
+            for j in range(getNbColonnesGrilleDemineur(grille)):
+                coord = construireCoordonnee(i,j)
+                simplifier = simplifierGrilleDemineur(grille,coord)
+                if not grille[getLigneCoordonnee(coord)][getColonneCoordonnee(coord)][const.RESOLU]:
+                    if len(simplifier) > 1:
+                        casesSimples.update(simplifier)
+                        modif += 1
+                        grille[getLigneCoordonnee(coord)][getColonneCoordonnee(coord)][const.RESOLU] = True
+                    flag = ajouterFlagsGrilleDemineur(grille,coord)
+                    if len(flag) > 0:
+                        caseFlags.update(flag)
+                        modif += 1
+                        grille[getLigneCoordonnee(coord)][getColonneCoordonnee(coord)][const.RESOLU] = True
+    resetResoudre(grille)
+    return (casesSimples,caseFlags)
